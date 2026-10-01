@@ -1,0 +1,10 @@
+{
+  "format": 1,
+  "files": [
+    "src/api.aug.md",
+    "src/bindings.aug.md",
+    "src/contracts.aug.md",
+    "src/export.aug.md"
+  ],
+  "digest": "58d9a26a223f9e4f06d7b4e41d7553f892a1172f14cea725eb0acffdfe180913"
+}

@@ -1,0 +1,69 @@
+{
+  "format": 2,
+  "name": "@greenpandastudios/aug-sqlite",
+  "version": "0.1.0",
+  "compiler": "0.21.0-native.1",
+  "source": "src",
+  "dependencies": {},
+  "native": {
+    "profile": "aug-native-abi-1",
+    "bindings": "native.abi.json",
+    "bindingsSha256": "3c75c2925c85f1b83db06ee00fa04f1d2d37c9fd6edca0d074ce89b4647ffffb",
+    "upstream": {
+      "repository": "https://github.com/sqlite/sqlite",
+      "version": "3.53.4",
+      "sourceRevision": "1e71ddf93849c6a6ecf58b827c0692073d2dd7ee40196158068f7b29f422e87d"
+    },
+    "artifacts": [
+      {
+        "id": "macos-arm64",
+        "target": {
+          "triple": "aarch64-apple-darwin",
+          "os": "macos",
+          "arch": "arm64",
+          "minimumOS": "14.0",
+          "cpuBaseline": "armv8-a",
+          "libc": "libSystem"
+        },
+        "url": "https://github.com/GreenPandaStudios/aug-sqlite/releases/download/v0.1.0/native-macos-arm64.tar.gz",
+        "sha256": "f05a6143f852de47cb0e5002646bdfdd55b2b6a86b7524e7446d6fb31e61a79b",
+        "maximumDownloadBytes": 625920,
+        "maximumUnpackedBytes": 1261838,
+        "link": {
+          "kind": "dynamic",
+          "libraries": [
+            "lib/libaug_sqlite.1.dylib"
+          ]
+        },
+        "runtime": {
+          "files": [
+            "lib/libaug_sqlite.1.dylib"
+          ],
+          "closureManifest": "runtime-files.json",
+          "relocation": "loader-relative"
+        },
+        "components": [
+          {
+            "id": "https://github.com/sqlite/sqlite",
+            "version": "3.53.4",
+            "compatibilityKey": "aug-sqlite-runtime",
+            "linkage": "static",
+            "required": true
+          }
+        ],
+        "fileManifest": "files.json",
+        "provenance": "provenance.json",
+        "notices": "THIRD_PARTY_NOTICES.md"
+      }
+    ],
+    "sourceBuild": {
+      "recipe": "native/build.json",
+      "inputs": "native/sources.lock.json",
+      "tools": [
+        "Clang",
+        "Apple macOS SDK"
+      ],
+      "automatic": false
+    }
+  }
+}
