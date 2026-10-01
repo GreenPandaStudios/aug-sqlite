@@ -11,7 +11,7 @@ After those preview assets are published:
 ```sh
 aug init native-example
 cd native-example
-aug add https://github.com/GreenPandaStudios/aug-sqlite#v0.1.1 --as sqlite
+aug add https://github.com/GreenPandaStudios/aug-sqlite#v0.1.2 --as sqlite
 ```
 
 Replace `main.aug` with:
@@ -45,4 +45,4 @@ Maintain binding declarations and the descriptor together. Run `aug check .`, `a
 
 The prebuilt archive includes upstream notices, provenance, a runtime dependency inventory and a whole-file manifest. Installing this package does not run build scripts. An unsupported target or missing artifact is an error; there is no automatic source-build fallback.
 
-Connections cannot attach other databases or execute `VACUUM`/`VACUUM INTO`. Temporary storage is memory-only. A file-backed connection may create SQLite journal, WAL and shared-memory sidecars beside its explicitly opened database. Extension loading is disabled. `queryScalar` requires exactly one non-null scalar row.
+Connections cannot attach other databases, run PRAGMAs, or execute `VACUUM`/`VACUUM INTO`. Temporary storage is memory-only. A file-backed connection may create SQLite journal, WAL and shared-memory sidecars beside its explicitly opened database. Extension loading is disabled. `queryScalar` requires exactly one non-null scalar row. Its preparation authorizer permits SELECT/read/function/recursive-query actions and rejects transactions, savepoints, and writes before execution. It cannot change connection settings through a rejected query. Native calls serialize each connection's authorization, preparation, execution and finalization.

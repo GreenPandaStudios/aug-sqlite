@@ -19,7 +19,7 @@ openMemory() returns own Database:
 execute(borrow Database database, string sql, List<string> parameters) returns int:
     unsafe:
         return _execute(database, sql, parameters)
-/** Query exactly one non-null text value. Copy it before finalizing the statement. */
+/** Query one non-null text value with SELECT. Reject PRAGMAs, transactions, savepoints and writes before execution. Copy the result before finalization. */
 queryScalar(Database database, string sql, List<string> parameters) returns string:
     unsafe:
         return _queryScalar(database, sql, parameters)
@@ -32,3 +32,16 @@ test openMemory:
                 execute(database, sql="CREATE TABLE users (name TEXT NOT NULL)", parameters=[])
                 execute(database, sql="INSERT INTO users (name) VALUES (?)", parameters=["O'Reilly"])
             assert(queryScalar(database, sql="SELECT name FROM users", parameters=[]) == "O'Reilly")
+        it rejects_connection_and_transaction_control:
+            own Database database = openMemory()
+            for statement in ["PRAGMA query_only=ON", "BEGIN", "COMMIT", "ROLLBACK", "SAVEPOINT hidden"]:
+                rejected = false
+                try:
+                    queryScalar(database, sql=statement, parameters=[])
+                catch SqliteError error:
+                    rejected = error.code == 23
+                assert(rejected)
+            borrow database:
+                execute(database, sql="CREATE TABLE rows (value TEXT)", parameters=[])
+                execute(database, sql="INSERT INTO rows VALUES (?)", parameters=["unchanged"])
+            assert(queryScalar(database, sql="SELECT value FROM rows", parameters=[]) == "unchanged")

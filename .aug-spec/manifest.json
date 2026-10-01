@@ -1,10 +1,11 @@
 {
   "format": 1,
   "files": [
+    ".aug-spec/packages/@greenpandastudios/aug-sqlite/0.1.2/native.abi.json",
     "src/api.aug.md",
     "src/bindings.aug.md",
     "src/contracts.aug.md",
     "src/export.aug.md"
   ],
-  "digest": "58d9a26a223f9e4f06d7b4e41d7553f892a1172f14cea725eb0acffdfe180913"
+  "digest": "c779f10b2d5dbe0919cbee1c9d6a500a710a5bdcae63fd04e6f2412fad32da54"
 }

@@ -1,4 +1,4 @@
-import Database and SqliteError and DatabaseStorage and NativeDatabaseStorage and open and execute and queryScalar from "https://github.com/GreenPandaStudios/aug-sqlite#v0.1.1"
+import Database and SqliteError and DatabaseStorage and NativeDatabaseStorage and open and execute and queryScalar from "https://github.com/GreenPandaStudios/aug-sqlite#v0.1.2"
 implement DatabaseStorage with NativeDatabaseStorage
 try:
     own Database database = open(path=":memory:")

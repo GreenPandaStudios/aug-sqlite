@@ -38,30 +38,32 @@ It may change `database`. Failures can raise [`SqliteError`](contracts.aug.md#sy
 <a id="symbol-queryScalar"></a>
 ## `queryScalar` · [source](api.aug#L23)
 
-Query exactly one non-null text value. Copy it before finalizing the statement. It takes `database` as [`Database`](bindings.aug.md#symbol-Database), `sql` as a string, and `parameters` as `List<string>`. Failures can raise [`SqliteError`](contracts.aug.md#symbol-SqliteError).
+Query one non-null text value with SELECT. Reject PRAGMAs, transactions, savepoints and writes before execution. Copy the result before finalization. It takes `database` as [`Database`](bindings.aug.md#symbol-Database), `sql` as a string, and `parameters` as `List<string>`.
 
-Within an unsafe block, it returns [`_queryScalar`](api.aug.md#symbol-_queryScalar) with `database`, `sql`, and `parameters`. Native operations must satisfy their declared C contracts.
+Failures can raise [`SqliteError`](contracts.aug.md#symbol-SqliteError). Within an unsafe block, it returns [`_queryScalar`](api.aug.md#symbol-_queryScalar) with `database`, `sql`, and `parameters`. Native operations must satisfy their declared C contracts.
 
 <a id="symbol-_open"></a>
 ## `_open` · [source](api.aug#L4)
 
 It is private to its defining scope. It takes `path` as a string. It returns ownership of [`Database`](bindings.aug.md#symbol-Database). Failures can raise [`SqliteError`](contracts.aug.md#symbol-SqliteError).
 
-Native C implementation; only its declared contract is visible here.
+Native implementation: `@greenpandastudios/aug-sqlite@0.1.2`, `3.53.4`. Supported targets: macos arm64 14.0+. Binding contract: [`native.abi.json`](../.aug-spec/packages/%40greenpandastudios/aug-sqlite/0.1.2/native.abi.json) (SHA-256 `3c75c2925c85f1b83db06ee00fa04f1d2d37c9fd6edca0d074ce89b4647ffffb`). It calls `aug_sqlite_open_v1` through the C ABI on the caller thread; a blocking native call blocks that thread. The caller owns the returned handle. The compiler checks the provider, descriptor digest, signature and ownership at August call sites. The native author promises not to retain inputs, enter August from foreign threads, or unwind across the C boundary; internal native workers may run. The compiler does not prove those promises.
 
 <a id="symbol-_execute"></a>
 ## `_execute` · [source](api.aug#L5)
 
 It is private to its defining scope. It takes `database` as [`Database`](bindings.aug.md#symbol-Database) with permission to mutate it during the call, `sql` as a string, and `parameters` as `List<string>`.
 
-It returns `int`. It may change `database`. Failures can raise [`SqliteError`](contracts.aug.md#symbol-SqliteError). Native C implementation; only its declared contract is visible here.
+It returns `int`. It may change `database`. Failures can raise [`SqliteError`](contracts.aug.md#symbol-SqliteError).
+
+Native implementation: `@greenpandastudios/aug-sqlite@0.1.2`, `3.53.4`. Supported targets: macos arm64 14.0+. Binding contract: [`native.abi.json`](../.aug-spec/packages/%40greenpandastudios/aug-sqlite/0.1.2/native.abi.json) (SHA-256 `3c75c2925c85f1b83db06ee00fa04f1d2d37c9fd6edca0d074ce89b4647ffffb`). It calls `aug_sqlite_execute_v1` through the C ABI on the caller thread; a blocking native call blocks that thread. `database` lends mutable access for this call. The compiler checks the provider, descriptor digest, signature and ownership at August call sites. The native author promises not to retain inputs, enter August from foreign threads, or unwind across the C boundary; internal native workers may run. The compiler does not prove those promises.
 
 <a id="symbol-_queryScalar"></a>
 ## `_queryScalar` · [source](api.aug#L6)
 
 It is private to its defining scope. It takes `database` as [`Database`](bindings.aug.md#symbol-Database), `sql` as a string, and `parameters` as `List<string>`. It returns `string`. Failures can raise [`SqliteError`](contracts.aug.md#symbol-SqliteError).
 
-Native C implementation; only its declared contract is visible here.
+Native implementation: `@greenpandastudios/aug-sqlite@0.1.2`, `3.53.4`. Supported targets: macos arm64 14.0+. Binding contract: [`native.abi.json`](../.aug-spec/packages/%40greenpandastudios/aug-sqlite/0.1.2/native.abi.json) (SHA-256 `3c75c2925c85f1b83db06ee00fa04f1d2d37c9fd6edca0d074ce89b4647ffffb`). It calls `aug_sqlite_scalar_v1` through the C ABI on the caller thread; a blocking native call blocks that thread. `database` lends read access for this call. August copies the returned buffer, then calls `aug_sqlite_text_release_v1` to release it. The compiler checks the provider, descriptor digest, signature and ownership at August call sites. The native author promises not to retain inputs, enter August from foreign threads, or unwind across the C boundary; internal native workers may run. The compiler does not prove those promises.
 
 <a id="symbol-test openMemory"></a>
 ## `test openMemory` · [source](api.aug#L27)
@@ -74,8 +76,16 @@ Tests [`openMemory`](api.aug.md#symbol-openMemory). Each case gets fresh setup a
 
 It gets `database` of type [`Database`](bindings.aug.md#symbol-Database) from [`openMemory`](api.aug.md#symbol-openMemory). `database` of type [`Database`](bindings.aug.md#symbol-Database) owns this value. With temporary permission to change `database`, it calls [`execute`](api.aug.md#symbol-execute) with `database`, `sql` `"CREATE TABLE users (name TEXT NOT NULL)"`, and `parameters` from a list with no items; then it calls [`execute`](api.aug.md#symbol-execute) with `database`, `sql` `"INSERT INTO users (name) VALUES (?)"`, and `parameters` from a list containing `"O'Reilly"`. The test requires [`queryScalar`](api.aug.md#symbol-queryScalar) with `database`, `sql` `"SELECT name FROM users"`, and `parameters` from a list with no items equals `"O'Reilly"`.
 
+#### `rejects_connection_and_transaction_control` · [source](api.aug#L35)
+
+It gets `database` of type [`Database`](bindings.aug.md#symbol-Database) from [`openMemory`](api.aug.md#symbol-openMemory). `database` of type [`Database`](bindings.aug.md#symbol-Database) owns this value. For each `statement` in a snapshot of a list containing `"PRAGMA query_only=ON"`, `"BEGIN"`, `"COMMIT"`, `"ROLLBACK"`, `"SAVEPOINT hidden"`, it sets `rejected` to `false`.
+
+It tries to call [`queryScalar`](api.aug.md#symbol-queryScalar) with `database`, `sql` from `statement`, and `parameters` from a list with no items. If this work raises [`SqliteError`](contracts.aug.md#symbol-SqliteError) as `error`, it sets `rejected` to `error.code` equals `23`. The test requires `rejected` is true. After the loop, with temporary permission to change `database`, it calls [`execute`](api.aug.md#symbol-execute) with `database`, `sql` `"CREATE TABLE rows (value TEXT)"`, and `parameters` from a list with no items; then it calls [`execute`](api.aug.md#symbol-execute) with `database`, `sql` `"INSERT INTO rows VALUES (?)"`, and `parameters` from a list containing `"unchanged"`.
+
+The test requires [`queryScalar`](api.aug.md#symbol-queryScalar) with `database`, `sql` `"SELECT value FROM rows"`, and `parameters` from a list with no items equals `"unchanged"`.
+
 ## Dependencies
 
-It uses [`Database`](bindings.aug.md#symbol-Database) from `bindings`. It uses [`DatabaseStorage`](contracts.aug.md#symbol-DatabaseStorage) ([`open`](contracts.aug.md#symbol-DatabaseStorage.open)) and [`SqliteError`](contracts.aug.md#symbol-SqliteError) from `contracts`.
+It uses [`Database`](bindings.aug.md#symbol-Database) from `bindings`. It uses [`DatabaseStorage`](contracts.aug.md#symbol-DatabaseStorage) ([`open`](contracts.aug.md#symbol-DatabaseStorage.open)) and [`SqliteError`](contracts.aug.md#symbol-SqliteError) (`code`) from `contracts`.
 
 Built-in operations follow the [language reference](https://greenpandastudios.github.io/augscript/language-constructs).

@@ -45,5 +45,14 @@ int main(void){
  assert(aug_sqlite_scalar_v1(db,bad,strlen(bad),NULL,NULL,0,&text,&length,&e)!=0&&text==NULL);
  const char *write="DELETE FROM users";
  assert(aug_sqlite_scalar_v1(db,write,strlen(write),NULL,NULL,0,&text,&length,&e)!=0&&text==NULL);
+ const char *forbidden[]={"PRAGMA query_only=ON","PRAGMA foreign_keys=OFF","BEGIN","COMMIT","ROLLBACK","SAVEPOINT hidden","RELEASE hidden","ROLLBACK TO hidden"};
+ for(size_t statement=0;statement<sizeof(forbidden)/sizeof(*forbidden);statement++){
+   const char *sql=forbidden[statement];text=NULL;length=0;
+   assert(aug_sqlite_scalar_v1(db,sql,strlen(sql),NULL,NULL,0,&text,&length,&e)==23&&e.code==23&&text==NULL&&length==0);
+ }
+ /* A rejected scalar query must not change write permission or leave a transaction. */
+ assert(aug_sqlite_execute_v1(db,insert,strlen(insert),values,lengths,1,&changed,&e)==0&&changed==1);
+ const char *count="SELECT count(*) FROM users";
+ assert(aug_sqlite_scalar_v1(db,count,strlen(count),NULL,NULL,0,&text,&length,&e)==0&&length==1&&!memcmp(text,"2",1));aug_sqlite_text_release_v1(text);
  aug_sqlite_release_v1(db);assert(aug_sqlite_live_connections_v1()==0);
  }puts("SQLite: parameter binding, query, rejection and 1000 cleanup cycles passed");}
