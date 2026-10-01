@@ -2,7 +2,7 @@
 
 SQLite connections with labeled SQL parameters and scalar queries. File-backed access is selected through the DatabaseStorage capability; openMemory needs no filesystem grant.
 
-This package targets the August `0.21.0-native.1` LLVM preview on macOS 14 or later, ARM64. Its source is ready for qualification; consumption requires the matching public compiler and native release assets. It does not work with August 0.20.1.
+This package targets the August `0.21.0` LLVM preview on macOS 14 or later, ARM64. Its source is ready for qualification; consumption requires the matching public compiler and native release assets. It does not work with August 0.20.1.
 
 ## Use it
 
@@ -11,7 +11,7 @@ After those preview assets are published:
 ```sh
 aug init native-example
 cd native-example
-aug add https://github.com/GreenPandaStudios/aug-sqlite#v0.1.0 --as sqlite
+aug add https://github.com/GreenPandaStudios/aug-sqlite#v0.1.1 --as sqlite
 ```
 
 Replace `main.aug` with:

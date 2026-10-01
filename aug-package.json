@@ -1,8 +1,8 @@
 {
   "format": 2,
   "name": "@greenpandastudios/aug-sqlite",
-  "version": "0.1.0",
-  "compiler": "0.21.0-native.1",
+  "version": "0.1.1",
+  "compiler": "0.21.0",
   "source": "src",
   "dependencies": {},
   "native": {
@@ -25,7 +25,7 @@
           "cpuBaseline": "armv8-a",
           "libc": "libSystem"
         },
-        "url": "https://github.com/GreenPandaStudios/aug-sqlite/releases/download/v0.1.0/native-macos-arm64.tar.gz",
+        "url": "https://github.com/GreenPandaStudios/aug-sqlite/releases/download/v0.1.1/native-macos-arm64.tar.gz",
         "sha256": "f05a6143f852de47cb0e5002646bdfdd55b2b6a86b7524e7446d6fb31e61a79b",
         "maximumDownloadBytes": 625920,
         "maximumUnpackedBytes": 1261838,
