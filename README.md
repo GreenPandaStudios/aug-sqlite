@@ -45,4 +45,6 @@ Maintain binding declarations and the descriptor together. Run `aug check .`, `a
 
 The prebuilt archive includes upstream notices, provenance, a runtime dependency inventory and a whole-file manifest. Installing this package does not run build scripts. An unsupported target or missing artifact is an error; there is no automatic source-build fallback.
 
+Linux x86-64 and ARM64 candidates are built on Debian 12 with a glibc 2.36 floor. Their publication and installed-CLI qualification are tracked separately from the current macOS artifacts. See [the native maintainer workflow](native/LINUX.md). Do not use a candidate hash as a public download until its exact archive has been published.
+
 Connections cannot attach other databases, run PRAGMAs, or execute `VACUUM`/`VACUUM INTO`. Temporary storage is memory-only. A file-backed connection may create SQLite journal, WAL and shared-memory sidecars beside its explicitly opened database. Extension loading is disabled. `queryScalar` requires exactly one non-null scalar row. Its preparation authorizer permits SELECT/read/function/recursive-query actions and rejects transactions, savepoints, and writes before execution. It cannot change connection settings through a rejected query. Native calls serialize each connection's authorization, preparation, execution and finalization.
