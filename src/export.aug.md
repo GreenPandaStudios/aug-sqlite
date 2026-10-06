@@ -2,6 +2,10 @@
 
 # `export.aug`
 
+<!-- August spec revision: schema=1 compiler=1.0.0 source-sha256=cc04864d94ed1cb84430b6b6d68154be3977b4293b510b227d84577e7cb6f5f8 -->
+
+[Interactions and sequences](export.aug.diagrams.md)
+
 ## Exports
 
 Export the declaration `Database` from [`bindings.aug`](bindings.aug.md#symbol-Database). Export the declaration `SqliteError` from [`contracts.aug`](contracts.aug.md#symbol-SqliteError). Export the declaration `open` from [`api.aug`](api.aug.md#symbol-open). Export the declaration `execute` from [`api.aug`](api.aug.md#symbol-execute).

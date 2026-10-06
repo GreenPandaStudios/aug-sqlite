@@ -1,0 +1,100 @@
+{
+  "format": 1,
+  "profile": "aug-native-abi-1",
+  "resources": [
+    {
+      "module": "bindings",
+      "name": "Database",
+      "release": "aug_sqlite_release_v1"
+    }
+  ],
+  "functions": [
+    {
+      "module": "api",
+      "name": "_open",
+      "symbol": "aug_sqlite_open_v1",
+      "params": [
+        {
+          "name": "path",
+          "kind": "utf8"
+        }
+      ],
+      "result": {
+        "kind": "resource",
+        "resource": "bindings.Database"
+      },
+      "error": "contracts.SqliteError",
+      "callingConvention": "C",
+      "status": "i32",
+      "uses": [],
+      "changes": [],
+      "thread": "caller",
+      "retainsInputs": false
+    },
+    {
+      "module": "api",
+      "name": "_execute",
+      "symbol": "aug_sqlite_execute_v1",
+      "params": [
+        {
+          "name": "database",
+          "kind": "resource",
+          "resource": "bindings.Database",
+          "ownership": "borrow"
+        },
+        {
+          "name": "sql",
+          "kind": "utf8"
+        },
+        {
+          "name": "parameters",
+          "kind": "utf8-list"
+        }
+      ],
+      "result": {
+        "kind": "i64"
+      },
+      "error": "contracts.SqliteError",
+      "callingConvention": "C",
+      "status": "i32",
+      "uses": [],
+      "changes": [
+        "database"
+      ],
+      "thread": "caller",
+      "retainsInputs": false
+    },
+    {
+      "module": "api",
+      "name": "_queryScalar",
+      "symbol": "aug_sqlite_scalar_v1",
+      "params": [
+        {
+          "name": "database",
+          "kind": "resource",
+          "resource": "bindings.Database",
+          "ownership": "read"
+        },
+        {
+          "name": "sql",
+          "kind": "utf8"
+        },
+        {
+          "name": "parameters",
+          "kind": "utf8-list"
+        }
+      ],
+      "result": {
+        "kind": "utf8",
+        "release": "aug_sqlite_text_release_v1"
+      },
+      "error": "contracts.SqliteError",
+      "callingConvention": "C",
+      "status": "i32",
+      "uses": [],
+      "changes": [],
+      "thread": "caller",
+      "retainsInputs": false
+    }
+  ]
+}

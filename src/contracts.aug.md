@@ -2,6 +2,10 @@
 
 # `contracts.aug`
 
+<!-- August spec revision: schema=1 compiler=1.0.0 source-sha256=0d593462debd7bc955bb1dcd978ee9aa04ae3d87b97d05a357971f97c0bdab78 -->
+
+[Interactions and sequences](contracts.aug.diagrams.md)
+
 <a id="symbol-SqliteError"></a>
 ## `SqliteError` · class · [source](contracts.aug#L3)
 

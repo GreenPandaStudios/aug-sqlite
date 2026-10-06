@@ -1,11 +1,20 @@
 {
   "format": 1,
   "files": [
-    ".aug-spec/packages/@greenpandastudios/aug-sqlite/0.1.2/native.abi.json",
+    ".aug-spec/diagrams/folders/src/index.md",
+    ".aug-spec/diagrams/index.md",
+    ".aug-spec/packages/@greenpandastudios/aug-sqlite/0.2.0/native.abi.json",
+    "src/api.aug.diagrams.md",
     "src/api.aug.md",
+    "src/bindings.aug.diagrams.md",
     "src/bindings.aug.md",
+    "src/contracts.aug.diagrams.md",
     "src/contracts.aug.md",
+    "src/export.aug.diagrams.md",
     "src/export.aug.md"
   ],
-  "digest": "c779f10b2d5dbe0919cbee1c9d6a500a710a5bdcae63fd04e6f2412fad32da54"
+  "nativeDescriptors": {
+    ".aug-spec/packages/@greenpandastudios/aug-sqlite/0.2.0/native.abi.json": "3c75c2925c85f1b83db06ee00fa04f1d2d37c9fd6edca0d074ce89b4647ffffb"
+  },
+  "digest": "3df2e25344e35aaddacb866abf280350b447c2b904ea21a2c664806206a26f8c"
 }

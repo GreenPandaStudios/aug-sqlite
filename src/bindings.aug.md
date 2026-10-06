@@ -2,7 +2,11 @@
 
 # `bindings.aug`
 
+<!-- August spec revision: schema=1 compiler=1.0.0 source-sha256=c9cd80c80534bdfaceafffc44997692eb61c169747158ff22ed76a45abd73d83 -->
+
+[Interactions and sequences](bindings.aug.diagrams.md)
+
 <a id="symbol-Database"></a>
 ## `Database` · native resource · [source](bindings.aug#L2)
 
-Native implementation: `@greenpandastudios/aug-sqlite@0.1.4`, `3.53.4`. Supported targets: linux arm64 glibc 2.36+, linux x64 glibc 2.36+, macos arm64 14.0+. Binding contract: [`native.abi.json`](../.aug-spec/packages/%40greenpandastudios/aug-sqlite/0.1.4/native.abi.json) (SHA-256 `3c75c2925c85f1b83db06ee00fa04f1d2d37c9fd6edca0d074ce89b4647ffffb`). An owned value releases its opaque handle through `aug_sqlite_release_v1` when its scope ends, including error and return paths.
+Native implementation: `@greenpandastudios/aug-sqlite@0.2.0`, `3.53.4`. Supported targets: linux arm64 glibc 2.36+, linux x64 glibc 2.36+, macos arm64 14.0+. Binding contract: [`native.abi.json`](../.aug-spec/packages/%40greenpandastudios/aug-sqlite/0.2.0/native.abi.json) (SHA-256 `3c75c2925c85f1b83db06ee00fa04f1d2d37c9fd6edca0d074ce89b4647ffffb`). An owned value releases its opaque handle through `aug_sqlite_release_v1` when its scope ends, including error and return paths.
